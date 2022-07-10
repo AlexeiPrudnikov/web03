@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Candy game</title>
+</head>
+<body>
+<script type="text/javascript">
+	allCandies = 2021;
+	minStep = 1;
+	maxStep = 28;
+	alert(`На столе лежит ${allCandies} конфет. Играют два игрока делая ход друг после друга. Первый ход определяется жеребьёвкой. За один ход можно забрать не более чем 28 конфет. Все конфеты оппонента достаются сделавшему последний ход. `);
+	function GetRandomInRange(min, max) {
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	function GetStep(allCandies, minStep, maxStep)
+	{
+		do
+		{
+			step = parseInt(prompt(`Осталось ${allCandies} конфет. Игрок, введите количество конфет, которое Вы берете`));
+			if ((step < minStep) || (step > maxStep) || (step > allCandies))
+			{
+				alert(`Ошибка ввода, можно взять от ${minStep} до ${maxStep} и меньше либо равно ${allCandies} конфет.`);
+			}
+		}while ((step < minStep) || (step > maxStep) || (step > allCandies));
+		return step;
+	}
+	function StepBot (allCandies, minStep, maxStep)
+	{
+
+		candies = allCandies % (maxStep + 1);
+	    if (candies == 0)
+	    {
+	    	return GetRandomInRange(minStep, maxStep);
+	    }
+	    else
+	    {
+	    return candies;
+		}
+	}
+	playerStep = true;
+	do
+	{
+		if (playerStep)
+		{
+			step = GetStep(allCandies, minStep, maxStep);
+			allCandies -= step;
+			if (allCandies == 0)
+			{
+				alert('Поздравляю, Вы выиграли!!!!');
+			}
+			else
+			{
+				alert(`Осталось ${allCandies} конфет. Ходит бот.`);
+			}
+
+		}
+		else
+		{
+			step = StepBot(allCandies, minStep, maxStep);
+			allCandies -= step;
+			if (allCandies == 0)
+			{
+				alert(`Бот взял ${step} конфет. Увы, Вы проиграли, победа бота!`);
+			}
+			else
+			{
+				alert(`Бот взял ${step} конфет. Осталось ${allCandies} конфет. Ходит Игрок.`);
+			}
+		}
+		playerStep = ! (playerStep);
+	}
+	while (allCandies != 0);
+</script>
+</body>
+</html>
